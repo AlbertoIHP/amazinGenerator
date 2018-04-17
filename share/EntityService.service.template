@@ -1,0 +1,69 @@
+import { base } from './base'
+import { socket } from './socket'
+import axios from 'axios'
+
+
+
+class EntityService {
+
+	index ( token )
+	{
+
+		let headers = { 'Authorization' : 'Bearer '+token }
+
+		let http = axios.create({ baseURL: base.api,  headers: headers	})
+
+
+		return http.get('entity')
+
+	}
+
+	show ( id, token )
+	{
+		let headers = { 'Authorization' : 'Bearer '+token }
+
+		let http = axios.create({ baseURL: base.api,  headers: headers	})
+
+
+		return http.get('entity/'+id)
+
+	}
+
+
+	update ( id, user, token )
+	{
+
+		let headers = { 'Accept' : 'application/json', 'Content-Type' : 'application/json', 'Authorization' : 'Bearer '+token }
+
+		let http = axios.create({ baseURL: base.api,  headers: headers	})
+
+
+		return http.put('entity/'+id, user)
+	}
+
+
+	destroy ( id, token )
+	{
+		let headers = { 'Authorization' : 'Bearer '+token }
+
+		let http = axios.create({ baseURL: base.api,  headers: headers	})
+
+		return http.delete('entity/'+id)
+	}
+
+
+	store ( user )
+	{
+		user.email = user.email.toLowerCase()
+
+		let headers = { 'Accept' : 'application/json', 'Content-Type' : 'application/json' }
+
+		let http = axios.create({ baseURL: base.api,  headers: headers	})
+
+		return http.post( 'entity', JSON.stringify( user ) )
+	}
+
+}
+
+
+export const entityService = new EntityService();
