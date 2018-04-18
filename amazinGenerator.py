@@ -5,8 +5,8 @@ if __name__ == '__main__':
 	console = CommandLine()
 
 	while( True ):
-		option = raw_input(' amazinGenerator >> ')
-		command = option.split(' amazinGenerator >> ')
+		option = raw_input(' amazinGenerator ('+console.data['currentProject']+') >> ')
+		command = option.split(' amazinGenerator ('+console.data['currentProject']+') >> ')
 		if( command[0] == 'exit'):
 			break
 		elif( len( command ) == 1 and re.search( '[a-zA-Z]', command[0] ) ):

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 
-class EntityService {
+class entityService {
 
 	index ( token )
 	{
@@ -66,4 +66,4 @@ class EntityService {
 }
 
 
-export const entityService = new EntityService();
+export const entityService = new entityService();

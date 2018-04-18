@@ -2,10 +2,14 @@ from subprocess import call
 import json
 import io
 import os
+from componentparser import ComponentParser
+from projectparser import ProjectParser
 
 class CommandLine(object):
 
 	def __init__(self):
+		self.componentCreator = ComponentParser()
+		self.projectCreator = ProjectParser()
 		jsonFile = self.checkJsonConfFile()
 		if( jsonFile == False ):
 			self.data = self.createJsonConfFile()
@@ -13,66 +17,6 @@ class CommandLine(object):
 			self.data = jsonFile
 
 
-
-	def generateProject(self, projectName):
-		print 'Checking if Node and npm are installed'
-		try:
-			self.runCommand('npm -v')
-			print 'succesfully'
-
-			print 'installing react native CLI'
-			self.runCommand('npm install -g create-react-native-app')
-			print 'succesfully'
-
-			print 'creating project: '+str( projectName )
-			self.runCommand( 'create-react-native-app projects/'+str( projectName ) )
-			print 'succesfully'
-
-			print 'adding your project into JSON conf file'
-			newProject = {'name' : projectName , 'components': [], 'services': [], 'routes': [] }
-			self.data['projects'].append( newProject )
-			self.replaceJson()
-			print 'succesfully'
-
-			print 'Moving and checking directory work'
-			os.chdir( 'projects/'+str( projectName ) )
-			print os.getcwd()
-
-			print 'Installing axios for fetching'
-			self.runCommand('npm install axios --save')
-			print 'succesfully'
-
-			print 'Installing react-native-router-flux for routing system'
-			self.runCommand('npm install react-native-router-flux --save')
-			print 'succesfully'
-
-			print 'Installing native-base for styling css'
-			self.runCommand('npm install native-base --save')
-			print 'succesfully'
-
-			print 'Installing socket for events configuration (real time apps)'
-			self.runCommand('npm install socket.io-client --save')
-			print 'succesfully'
-
-			print 'Doing some amazinGenerator magic...'
-			self.runCommand('rm -rf App.test.js')
-			self.runCommand('rm -rf App.js')
-			self.runCommand('cp ../../share/App.template App.js')
-			self.runCommand('mkdir src')
-			os.chdir( 'src' )
-			self.runCommand('mkdir Services')
-			self.runCommand('mkdir Components')
-			self.runCommand('mkdir Routes')
-			self.runCommand('cp ../../../share/base.template Services/base.js')
-			self.runCommand('cp ../../../share/routes.template Routes/index.js')
-			self.runCommand('cp ../../../share/index.template index.js')
-			os.chdir('../../../')
-			print 'succesfully'
-			print 'Now by using your project you can create components, services, etc.'
-
-		except OSError:
-			print "Error: You have not installed NPM, please install it before continue..."
-			
 		
 
 
@@ -81,6 +25,7 @@ class CommandLine(object):
 		with open( './share/conf.json', 'w' ) as outfile:
 			json.dump( self.data, outfile )
 
+
 	def execute(self, command):
 
 		command = command.split('-')
@@ -88,24 +33,34 @@ class CommandLine(object):
 
 		if( command[0] == 'help'):
 			self.displayHelp()
+
 		elif( command[0] == 'new project ' and len( command ) == 2 ):
-			self.generateProject( command[1] )
+			self.projectCreator.generateProject( command[1], self )
+
 		elif( command[0] == 'show projects' and len( command ) == 1 ):
-			self.showProjects()
+			self.projectCreator.showProjects( self )
+
 		elif( command[0] == 'del project ' and len( command ) == 2 ):
-			self.deleteProject( str( command[1] ) )
-		elif( command[0] == 'use project ' and len( command ) == 2):
-			self.useProject( str( command[1] ) )
+			self.projectCreator.deleteProject( str( command[1], self ) )
+
+		elif( command[0] == 'use project ' and len( command ) == 2 ):
+			self.projectCreator.useProject( str( command[1], self ) )
+
 		elif( command[0] == 'new component ' and len( command ) == 2 ):
-			print 'se debe crear componente '+str(command[1])
+			self.componentCreator.createComponent( self.data['currentProject'], str( command[1]), self )
+
 		elif( command[0] == 'show components' and len( command ) == 1 ):
 			print 'se deben mostrar todos los componentes del proyecto cargado'
+
 		elif( command[0] == 'del component ' and len( command ) == 2 ):
-			print 'se debe eliminar el componente'+str(command[1])
-		elif( command[0] == 'use component ' and len( command ) == 2):
-			print 'se debe usar el componente'+str(command[1])
+			print 'se debe eliminar el componente'+str( command[1] )
+
+		elif( command[0] == 'use component ' and len( command ) == 2 ):
+			print 'se debe usar el componente'+str( command[1] )
+
 		elif( command[0] == 'clear'):
 			self.runCommand('clear')
+
 		else:
 			print "We could not recognize the command..."
 			self.displayHelp()	
@@ -113,28 +68,6 @@ class CommandLine(object):
 
 
 
-	def deleteProject( self, projectName ):
-		print 'Deleting project '+str( projectName )
-		self.runCommand( 'rm -rf projects/'+str( projectName ) )
-		if( self.data['currentProject'] == str( projectName ) ):
-			self.data['currentProject'] = ''
-			self.replaceJson()
-
-		for project in self.data['projects']:
-			if( project['name'] == str( projectName ) ):
-				self.data['projects'].remove( project )
-				self.replaceJson()
-				break
-
-		print 'succesfully'
-
-	def useProject( self, projectName ):
-		self.data['currentProject'] = projectName
-		self.replaceJson()
-
-	def showProjects( self ):
-		for project in self.data['projects']:
-			print "- "+str( project['name'] )
 
 
 	def createJsonConfFile( self ):
