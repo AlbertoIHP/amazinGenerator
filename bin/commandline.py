@@ -44,7 +44,7 @@ class CommandLine(object):
 			self.projectCreator.deleteProject( str( command[1], self ) )
 
 		elif( command[0] == 'use project ' and len( command ) == 2 ):
-			self.projectCreator.useProject( str( command[1], self ) )
+			self.projectCreator.useProject( str( command[1] ), self )
 
 		elif( command[0] == 'new component ' and len( command ) == 2 ):
 			self.componentCreator.createComponent( self.data['currentProject'], str( command[1]), self )

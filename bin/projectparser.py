@@ -15,8 +15,17 @@ class ProjectParser(object):
 
 
 	def useProject( self, projectName, console ):
-		console.data['currentProject'] = projectName
-		console.replaceJson()
+		for project in console.data['projects']:
+			if( project['name'] == projectName ):
+				console.data['currentProject'] = str( projectName )
+				console.replaceJson()
+				print "succesfully"
+				break
+			else:
+				print "There are no project with name: "+str( projectName )
+
+
+
 
 
 
@@ -55,33 +64,44 @@ class ProjectParser(object):
 			console.runCommand( 'create-react-native-app projects/'+str( projectName ) )
 			print 'succesfully'
 
-			print 'adding your project into JSON conf file'
-			newProject = {'name' : projectName , 'components': [], 'services': [], 'routes': [] }
-			console.data['projects'].append( newProject )
-			console.replaceJson()
-			print 'succesfully'
+
 
 			print 'Moving and checking directory work'
 			os.chdir( 'projects/'+str( projectName ) )
 			print os.getcwd()
 
-			print 'Installing axios for fetching'
-			console.runCommand('npm install axios --save')
-			print 'succesfully'
-
-			print 'Installing react-native-router-flux for routing system'
-			console.runCommand('npm install react-native-router-flux --save')
-			print 'succesfully'
-
-			print 'Installing native-base for styling css'
-			console.runCommand('npm install native-base --save')
-			print 'succesfully'
-
-			print 'Installing socket for events configuration (real time apps)'
-			console.runCommand('npm install socket.io-client --save')
-			print 'succesfully'
 
 			print 'Doing some amazinGenerator magic...'
+
+
+
+			print "Cleaning your NPM cache, this may take a several minutes..."
+			console.runCommand('npm cache clean --force')
+
+
+			console.runCommand('rm -rf package.json')
+			console.runCommand('rm -rf node_modules')
+			console.runCommand('rm -rf package-lock.json')
+			console.runCommand('cp ../../share/kikiriwi.png kikiriwi.png')
+
+
+
+
+			packageText = open( '../../share/package.template', 'r' ).read().replace('kukuriwi', str( projectName ) )
+			open( 'package.json', 'w' ).write( packageText )
+			console.runCommand('ls -la')
+			console.runCommand('rm -rf app.json')
+			packageText = open( '../../share/app.json.template', 'r' ).read().replace('kukuriwi', str( projectName ) )
+			open( 'app.json', 'w' ).write( packageText )
+
+
+
+
+			
+			console.runCommand('npm install')
+
+
+
 			console.runCommand('rm -rf App.test.js')
 			console.runCommand('rm -rf App.js')
 			console.runCommand('cp ../../share/App.template App.js')
@@ -94,6 +114,14 @@ class ProjectParser(object):
 			console.runCommand('cp ../../../share/routes.template Routes/index.js')
 			console.runCommand('cp ../../../share/index.template index.js')
 			os.chdir('../../../')
+
+
+			print 'adding your project into JSON conf file'
+			newProject = {'name' : projectName , 'components': [], 'services': [], 'routes': [] }
+			console.data['projects'].append( newProject )
+			console.replaceJson()
+			print 'succesfully'
+
 			print 'succesfully'
 			print 'Now by using your project you can create components, services, etc.'
 
