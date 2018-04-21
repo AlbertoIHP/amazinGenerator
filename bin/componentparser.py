@@ -12,6 +12,20 @@ class ComponentParser(object):
 		if( currentProject == '' ):
 			print '\033[91m'+"Error: You have to select one project to create a component"
 		else:
+			for project in console.data['projects']:
+				if( project['name'] == currentProject ):
+					#print project['components']
+					for component in project['components']:
+						print "- "+str( component['name'] )
+						#print "- "+str( component['name'] )
+
+						#console.data['currentProject'] = str( projectName )
+						#console.replaceJson()
+						#print "succesfully"
+					break
+				else:
+					print "There are no project with name: "+str( projectName )
+
 
 
 	def createComponent( self, currentProject, componentName, console ):

@@ -17,9 +17,6 @@ class CommandLine(object):
 			self.data = jsonFile
 
 
-		
-
-
 	def replaceJson(self):
 		os.remove("./share/conf.json")
 		with open( './share/conf.json', 'w' ) as outfile:
@@ -50,7 +47,7 @@ class CommandLine(object):
 			self.componentCreator.createComponent( self.data['currentProject'], str( command[1]), self )
 
 		elif( command[0] == 'show components' and len( command ) == 1 ):
-			print 'se deben mostrar todos los componentes del proyecto cargado'
+			self.componentCreator.showComponents(self.data['currentProject'], self )
 
 		elif( command[0] == 'del component ' and len( command ) == 2 ):
 			print 'se debe eliminar el componente'+str( command[1] )
@@ -63,7 +60,7 @@ class CommandLine(object):
 
 		else:
 			print "We could not recognize the command..."
-			self.displayHelp()	
+			self.displayHelp()
 
 
 
@@ -121,5 +118,3 @@ class CommandLine(object):
 		print 'del component -componentname (This will delete the component)'
 		print 'show components (This will show the whole list of components of loaded project)'
 		print 'use component -componentname (This will load your component for configurate it)'
-
-

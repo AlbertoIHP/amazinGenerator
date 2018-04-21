@@ -87,7 +87,7 @@ class ProjectParser(object):
 
 
 
-			
+
 			console.runCommand('npm install --save axios')
 			console.runCommand('npm install --save native-base')
 			console.runCommand('npm install --save socket.io-client')
@@ -112,19 +112,19 @@ class ProjectParser(object):
 
 
 			print '\033[93m'+'adding your project into JSON conf file \n'
-			newProject = { 
-				'name' : projectName , 
-				'components': [ { 'name': 'mainComponent', 'state': [ {'name': 'title', 	'value': 'mainComponent works' } ], 
-					  'functions': [ 
-						{'name': 'constructor', 'params': [ { 'name': 'props' } ], 'returnVal': False }, 
-						{'name': 'closeDrawer', 'params': [ ], 'returnVal': False }, 
-						{'name': 'openDrawer', 'params': [ ], 'returnVal': False }, 
-						{'name': 'render', 'params': [ ], 'returnVal': True } ] }, 
-					{'name': 'SideBar', 'state' : [ {'name': 'shadowOffsetWidth', 'value': 1}, {'name': 'shadowRadius', 'value': 4} ], 
-					'functions': [ 
-						{'name': 'constructor', 'params': [ { 'name': 'props' } ], 'returnVal': False }, 
-						{'name': 'render', 'params': [ ], 'returnVal': True } ] } ], 
-				'services': [], 
+			newProject = {
+				'name' : projectName ,
+				'components': [ { 'name': 'mainComponent', 'state': [ {'name': 'title', 	'value': 'mainComponent works' } ],
+					  'functions': [
+						{'name': 'constructor', 'params': [ { 'name': 'props' } ], 'returnVal': False },
+						{'name': 'closeDrawer', 'params': [ ], 'returnVal': False },
+						{'name': 'openDrawer', 'params': [ ], 'returnVal': False },
+						{'name': 'render', 'params': [ ], 'returnVal': True } ] },
+					{'name': 'SideBar', 'state' : [ {'name': 'shadowOffsetWidth', 'value': 1}, {'name': 'shadowRadius', 'value': 4} ],
+					'functions': [
+						{'name': 'constructor', 'params': [ { 'name': 'props' } ], 'returnVal': False },
+						{'name': 'render', 'params': [ ], 'returnVal': True } ] } ],
+				'services': [],
 				'routes': [] }
 			console.data['projects'].append( newProject )
 			console.replaceJson()
@@ -134,5 +134,3 @@ class ProjectParser(object):
 
 		except OSError:
 			print '\033[91m'+"Error: You have not installed NPM, please install it before continue..."
-			
-		
