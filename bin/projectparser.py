@@ -54,42 +54,32 @@ class ProjectParser(object):
 		print 'Checking if Node and npm are installed'
 		try:
 			console.runCommand('npm -v')
-			print 'succesfully'
+			print '\033[92m'+'succesfully\n'
 
-			print 'installing react native CLI'
+			print '\033[93m'+'installing react native CLI\n'
 			console.runCommand('npm install -g create-react-native-app')
-			print 'succesfully'
+			print '\033[92m'+'succesfully'
 
-			print 'creating project: '+str( projectName )
+			print '\033[93m'+'creating project: '+str( projectName )
 			console.runCommand( 'create-react-native-app projects/'+str( projectName ) )
-			print 'succesfully'
+			print '\033[92m'+'succesfully\n'
 
 
 
-			print 'Moving and checking directory work'
+			print '\033[93m'+'Moving and checking directory work\n'
 			os.chdir( 'projects/'+str( projectName ) )
 			print os.getcwd()
+			print '\033[92m'+'succesfully\n'
 
-
-			print 'Doing some amazinGenerator magic...'
-
-
-
-			print "Cleaning your NPM cache, this may take a several minutes..."
-			console.runCommand('npm cache clean --force')
-
-
-			console.runCommand('rm -rf package.json')
-			console.runCommand('rm -rf node_modules')
-			console.runCommand('rm -rf package-lock.json')
-			console.runCommand('cp ../../share/kikiriwi.png kikiriwi.png')
+			print '\033[93m'+'Doing some amazinGenerator magic... \n'
 
 
 
 
-			packageText = open( '../../share/package.template', 'r' ).read().replace('kukuriwi', str( projectName ) )
-			open( 'package.json', 'w' ).write( packageText )
-			console.runCommand('ls -la')
+			console.runCommand('cp ../../share/kikiriwi.png '+str( projectName )+'.png')
+
+
+
 			console.runCommand('rm -rf app.json')
 			packageText = open( '../../share/app.json.template', 'r' ).read().replace('kukuriwi', str( projectName ) )
 			open( 'app.json', 'w' ).write( packageText )
@@ -98,7 +88,11 @@ class ProjectParser(object):
 
 
 			
-			console.runCommand('npm install')
+			console.runCommand('npm install --save axios')
+			console.runCommand('npm install --save native-base')
+			console.runCommand('npm install --save socket.io-client')
+			console.runCommand('npm install --save moment')
+			console.runCommand('npm install --save react-navigation')
 
 
 
@@ -113,19 +107,32 @@ class ProjectParser(object):
 			console.runCommand('cp ../../../share/base.template Services/base.js')
 			console.runCommand('cp ../../../share/routes.template Routes/index.js')
 			console.runCommand('cp ../../../share/index.template index.js')
+			console.runCommand('cp -r ../../../share/mainComponent Components')
 			os.chdir('../../../')
 
 
-			print 'adding your project into JSON conf file'
-			newProject = {'name' : projectName , 'components': [], 'services': [], 'routes': [] }
+			print '\033[93m'+'adding your project into JSON conf file \n'
+			newProject = { 
+				'name' : projectName , 
+				'components': [ { 'name': 'mainComponent', 'state': [ {'name': 'title', 	'value': 'mainComponent works' } ], 
+					  'functions': [ 
+						{'name': 'constructor', 'params': [ { 'name': 'props' } ], 'returnVal': False }, 
+						{'name': 'closeDrawer', 'params': [ ], 'returnVal': False }, 
+						{'name': 'openDrawer', 'params': [ ], 'returnVal': False }, 
+						{'name': 'render', 'params': [ ], 'returnVal': True } ] }, 
+					{'name': 'SideBar', 'state' : [ {'name': 'shadowOffsetWidth', 'value': 1}, {'name': 'shadowRadius', 'value': 4} ], 
+					'functions': [ 
+						{'name': 'constructor', 'params': [ { 'name': 'props' } ], 'returnVal': False }, 
+						{'name': 'render', 'params': [ ], 'returnVal': True } ] } ], 
+				'services': [], 
+				'routes': [] }
 			console.data['projects'].append( newProject )
 			console.replaceJson()
-			print 'succesfully'
+			print '\033[92m'+'succesfully\n'
 
-			print 'succesfully'
-			print 'Now by using your project you can create components, services, etc.'
+			print '\033[94m'+'Now by using your project you can create components, services, etc.'
 
 		except OSError:
-			print "Error: You have not installed NPM, please install it before continue..."
+			print '\033[91m'+"Error: You have not installed NPM, please install it before continue..."
 			
 		

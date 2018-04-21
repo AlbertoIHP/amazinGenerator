@@ -11,9 +11,9 @@ class ComponentParser(object):
 	def createComponent( self, currentProject, componentName, console ):
 		# First we check if there is a selected project
 		if( currentProject == '' ):
-			print "Error: You have to select one project to create a component"
+			print '\033[91m'+"Error: You have to select one project to create a component"
 		else:
-			print "Configurating your component for the project: "+currentProject
+			print '\033[93m'+"Configurating your component for the project: "+currentProject
 			
 			# If user, has selected a project early, we will move into components folder
 			os.chdir( 'projects/'+str( currentProject )+"/src/Components" )
@@ -75,12 +75,65 @@ class ComponentParser(object):
 
 			# First we get the template single route file, and read it, and replace our scret word by the component name
 			singleRoute = open( '../../../../share/singleRoute.template', 'r' ).read().replace('kukuriwi', componentName+'Component' )
+
+
+
+
 			
 			# As well as we need the single route put inside the router, we also have to import that component
 			# That is why we create this standar ES6 import of our component
 			importText = 'import '+componentName+'Component'+' from "../Components/'+componentName+'"'
 
 
+
+
+
+
+
+
+
+
+
+
+			# We create the single menu elemtn for the drawer (SideBar)
+			singleDrawerElement =  open( '../../../../share/singleMenu.template', 'r' ).read().replace('kukuriwi', componentName+'Component' )
+
+
+
+
+
+
+
+
+
+			# We initialize the file content that, our routes file will have
+			routesText = ''
+			singleDrawerMenuAdded = False
+			leaveOneWithout = False
+
+			# We open the one that were created when the projects was initialized
+			with open( '../Components/mainComponent/SideBar/index.js' ) as f:
+
+				# And we walk throw each line as we did before 
+			    for line in f:
+			    	# If import is done, we check if signle rout was not added and there is exactly our kukuriwi word to replace it by single route inside the router tags
+			    	if( len( str( line ) ) == 21 and singleDrawerMenuAdded == False ):
+			    		routesText = routesText+'           '+singleDrawerElement.replace('//kukuriwi', singleDrawerElement )+',\n'+'          //kukuriwi'+'\n'
+			    		singleDrawerMenuAdded = True
+
+			    	# Else we check if the content has something (not a clean one) and we add the line
+			    	elif(len( str(line) ) == 1  and leaveOneWithout == False):
+			    		routesText = routesText+str(line)+'\n'
+			    		leaveOneWithout = True
+			    	elif( len( str( line ) ) > 1 ):
+			    		routesText = routesText+str(line)
+
+
+			console.runCommand('rm -rf ../Components/mainComponent/SideBar/index.js')
+
+
+			# And we create a new one with the same standart name
+			open( '../Components/mainComponent/SideBar/index.js', 'w' ).write( routesText )
 
 
 			# We create this flags to now when we already add the import, the route and leave one clean line to 
@@ -108,18 +161,19 @@ class ComponentParser(object):
 
 
 			    	# If import is done, we check if signle rout was not added and there is exactly our kukuriwi word to replace it by single route inside the router tags
-			    	elif( len( str( line ) ) == 20 and routeAdded == False ):
-			    		routesText = routesText+'           '+singleRoute.replace('//kukuriwi', singleRoute )+'\n'+'        	//kukuriwi'+'\n'
+			    	elif( len( str( line ) ) == 21 and routeAdded == False ):
+			    		routesText = routesText+'           '+singleRoute.replace('//kukuriwi', singleRoute )+',\n'+'          //kukuriwi'+'\n'
 			    		routeAdded = True
 
 			    	# If import and single route are done, we check if we can leave one clean line (Just one)
-			    	elif( str(line) == 1 and leaveOneWithout == False):
+			    	elif( len( str(line) ) == 1 and leaveOneWithout == False):
 			    		routesText = routesText+str(line)+'\n'
 			    		leaveOneWithout = True
 
 			    	# Else we check if the content has something (not a clean one) and we add the line
 			    	elif( len( str( line ) ) > 1 ):
-			    		routesText = routesText+str(line)+'\n'
+			    		routesText = routesText+str(line)
+
 
 
 
@@ -132,8 +186,35 @@ class ComponentParser(object):
 			# Then we just come back to our main amazinGenerator directory
 			os.chdir( '../../../..' )
 
-			# And notify to the user that everythings was done without problems
-			print "successfully"
+
+
+
+
+			print '\033[93m'+'adding your component into JSON conf file \n'
+			newComponent = 	{ 
+					'name': componentName, 
+					'state': [ {'name': 'title', 	'value': componentName+' works' } ], 
+					'functions': [ 
+						{
+							'name': 'constructor', 
+							'params': [ { 'name': 'props' } ], 
+							'returnVal': False 
+						}, 
+						{
+							'name': 'render', 
+							'params': [ ], 
+							'returnVal': True 
+						},  
+						] 
+				} 
+
+			for project in console.data['projects']:
+				if( project['name'] == console.data['currentProject'] ):
+					project['components'].append( newComponent )
+
+			console.replaceJson()
+			print '\033[92m'+'succesfully\n'
+
 
 
 

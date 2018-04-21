@@ -1,15 +1,15 @@
 {
   "expo": {
-   "name": "kiriwi",
-   "icon": "./kikiriwi-logo.png",
+   "name": "kukuriwi",
+   "icon": "./kukuriwi.png",
    "version": "1.0.0",
-   "slug": "kikiriwiSluig",
-   "sdkVersion": "24.0.0",
+   "slug": "kukuriwiSluig",
+   "sdkVersion": "26.0.0",
    "ios": {
-     "bundleIdentifier": "com.yourcompany.kikiriwi"
+     "bundleIdentifier": "com.yourcompany.kukuriwi"
    },
    "android": {
-     "package": "com.yourcompany.kikiriwi"
+     "package": "com.yourcompany.kukuriwi"
    }
   }
 }

@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
-import { styles } from './styles'
+import styles  from './styles'
 
 export default class kukuriwi extends Component 
 {
+
+  constructor( props )
+  {
+    super( props )
+    this.state = 
+    {
+      tittle: ' kukuriwi works'
+    }
+  }
+
   render() 
   {
     return (
       <Container style={ styles.container } >
         <Header>
           <Left>
-            <Button transparent>
-              <Icon name='menu' />
+            <Button transparent onPress={ () => this.props.navigation.pop() }>
+              <Icon name='ios-arrow-dropleft-outline' />
             </Button>
           </Left>
           <Body>
@@ -21,7 +31,7 @@ export default class kukuriwi extends Component
         </Header>
         <Content>
           <Text>
-            kukuriwi Works!
+              { this.state.tittle }
           </Text>
         </Content>
         <Footer>

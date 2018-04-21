@@ -1,1 +1,1 @@
-<Scene key=" kukuriwi " component={ kukuriwi } title=" kukuriwi "/>
+kukuriwi: { screen: kukuriwi, navigationOptions: { header:null, headerTitle: null }}

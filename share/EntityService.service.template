@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 
-class entityService {
+class KukuriwiService {
 
 	index ( token )
 	{
@@ -14,7 +14,7 @@ class entityService {
 		let http = axios.create({ baseURL: base.api,  headers: headers	})
 
 
-		return http.get('entity')
+		return http.get('kukuriwis')
 
 	}
 
@@ -25,12 +25,12 @@ class entityService {
 		let http = axios.create({ baseURL: base.api,  headers: headers	})
 
 
-		return http.get('entity/'+id)
+		return http.get('kukuriwis/'+id)
 
 	}
 
 
-	update ( id, user, token )
+	update ( id, kukuriwi, token )
 	{
 
 		let headers = { 'Accept' : 'application/json', 'Content-Type' : 'application/json', 'Authorization' : 'Bearer '+token }
@@ -38,7 +38,7 @@ class entityService {
 		let http = axios.create({ baseURL: base.api,  headers: headers	})
 
 
-		return http.put('entity/'+id, user)
+		return http.put('kukuriwis/'+id, kukuriwi)
 	}
 
 
@@ -48,22 +48,21 @@ class entityService {
 
 		let http = axios.create({ baseURL: base.api,  headers: headers	})
 
-		return http.delete('entity/'+id)
+		return http.delete('kukuriwis/'+id)
 	}
 
 
-	store ( user )
+	store ( kukuriwi )
 	{
-		user.email = user.email.toLowerCase()
 
 		let headers = { 'Accept' : 'application/json', 'Content-Type' : 'application/json' }
 
 		let http = axios.create({ baseURL: base.api,  headers: headers	})
 
-		return http.post( 'entity', JSON.stringify( user ) )
+		return http.post( 'kukuriwis', JSON.stringify( kukuriwi ) )
 	}
 
 }
 
 
-export const entityService = new entityService();
+export const kukuriwiService = new KukuriwiService();

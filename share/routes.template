@@ -1,19 +1,15 @@
-import React from 'react'
-
-import { Root } from 'native-base';
-import { Router, Scene } from 'react-native-router-flux'
+import { StackNavigator, DrawerNavigator } from 'react-navigation';
+import mainComponent from '../Components/mainComponent';
 
 
-const RouterComponent = () => {
-    return (
-    <Root>
-      <Router hideNavBar="true">
-        <Scene key="root" hideNavBar="true">
-        	//kukuriwi
-        </Scene>
-      </Router>
-    </Root>
-    );
-  };
+const Router = StackNavigator({
+	mainComponent: { screen: mainComponent, navigationOptions: { header:null, headerTitle: null }},
+          //kukuriwi
 
-export default RouterComponent;
+}  );
+
+
+export default Router;
+
+
+
