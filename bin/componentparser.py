@@ -8,13 +8,19 @@ from fuzzywuzzy import fuzz
 class ComponentParser(object):
 
 
+	def showComponents( self,currentProject,console ):
+		if( currentProject == '' ):
+			print '\033[91m'+"Error: You have to select one project to create a component"
+		else:
+
+
 	def createComponent( self, currentProject, componentName, console ):
 		# First we check if there is a selected project
 		if( currentProject == '' ):
 			print '\033[91m'+"Error: You have to select one project to create a component"
 		else:
 			print '\033[93m'+"Configurating your component for the project: "+currentProject
-			
+
 			# If user, has selected a project early, we will move into components folder
 			os.chdir( 'projects/'+str( currentProject )+"/src/Components" )
 
@@ -25,7 +31,7 @@ class ComponentParser(object):
 			os.chdir( str( componentName ) )
 
 
-			# We save in this vars, the names of our both files for any component 
+			# We save in this vars, the names of our both files for any component
 			componentFileName = "index.js"
 			stylesFileName = 'styles.js'
 
@@ -42,7 +48,7 @@ class ComponentParser(object):
 			# Now we initialize the content of our component
 			componentText = ''
 
-			# We open the component template 
+			# We open the component template
 			with open('../../../../../share/Component.template') as f:
 
 				# We walk throw each line of the file that we had read
@@ -63,7 +69,7 @@ class ComponentParser(object):
 
 
 
-			# Then we just open and write a new file with the content that we made				
+			# Then we just open and write a new file with the content that we made
 			open( componentFileName, 'w' ).write( componentText )
 
 
@@ -79,7 +85,7 @@ class ComponentParser(object):
 
 
 
-			
+
 			# As well as we need the single route put inside the router, we also have to import that component
 			# That is why we create this standar ES6 import of our component
 			importText = 'import '+componentName+'Component'+' from "../Components/'+componentName+'"'
@@ -114,7 +120,7 @@ class ComponentParser(object):
 			# We open the one that were created when the projects was initialized
 			with open( '../Components/mainComponent/SideBar/index.js' ) as f:
 
-				# And we walk throw each line as we did before 
+				# And we walk throw each line as we did before
 			    for line in f:
 			    	# If import is done, we check if signle rout was not added and there is exactly our kukuriwi word to replace it by single route inside the router tags
 			    	if( len( str( line ) ) == 21 and singleDrawerMenuAdded == False ):
@@ -136,7 +142,7 @@ class ComponentParser(object):
 			open( '../Components/mainComponent/SideBar/index.js', 'w' ).write( routesText )
 
 
-			# We create this flags to now when we already add the import, the route and leave one clean line to 
+			# We create this flags to now when we already add the import, the route and leave one clean line to
 			# Import future components
 			importAdded = False
 			routeAdded = False
@@ -151,7 +157,7 @@ class ComponentParser(object):
 			# We open the one that were created when the projects was initialized
 			with open( 'index.js' ) as f:
 
-				# And we walk throw each line as we did before 
+				# And we walk throw each line as we did before
 			    for line in f:
 
 			    	# We check if there is an clean line and if the import was not added to add it
@@ -191,26 +197,27 @@ class ComponentParser(object):
 
 
 			print '\033[93m'+'adding your component into JSON conf file \n'
-			newComponent = 	{ 
-					'name': componentName, 
-					'state': [ {'name': 'title', 	'value': componentName+' works' } ], 
-					'functions': [ 
+			newComponent = 	{
+					'name': componentName,
+					'state': [ {'name': 'title', 	'value': componentName+' works' } ],
+					'functions': [
 						{
-							'name': 'constructor', 
-							'params': [ { 'name': 'props' } ], 
-							'returnVal': False 
-						}, 
+							'name': 'constructor',
+							'params': [ { 'name': 'props' } ],
+							'returnVal': False
+						},
 						{
-							'name': 'render', 
-							'params': [ ], 
-							'returnVal': True 
-						},  
-						] 
-				} 
+							'name': 'render',
+							'params': [ ],
+							'returnVal': True
+						},
+						]
+				}
 
 			for project in console.data['projects']:
 				if( project['name'] == console.data['currentProject'] ):
 					project['components'].append( newComponent )
+					break
 
 			console.replaceJson()
 			print '\033[92m'+'succesfully\n'
@@ -220,18 +227,13 @@ class ComponentParser(object):
 
 	def fuzzy_replace( self, str_a, str_b, orig_str ):
 		# Length to read orig_str chunk by chunk
-	    l = len(str_a.split()) 
+	    l = len(str_a.split())
 	    splitted = orig_str.split()
 	    for i in range(len(splitted)-l+1):
 	        test = " ".join(splitted[i:i+l])
 	        #Using fuzzwuzzy library to test ratio
-	        if fuzz.ratio(str_a, test) > 75: 
+	        if fuzz.ratio(str_a, test) > 75:
 	            before = " ".join(splitted[:i])
 	            after = " ".join(splitted[i+1:])
 	            #Output will be sandwich of these three strings
-	            return before+" "+str_b+" "+after 
-
-
-
-
-		
+	            return before+" "+str_b+" "+after

@@ -1,0 +1,15 @@
+{
+  "expo": {
+   "name": "test",
+   "icon": "./test.png",
+   "version": "1.0.0",
+   "slug": "testSluig",
+   "sdkVersion": "26.0.0",
+   "ios": {
+     "bundleIdentifier": "com.yourcompany.test"
+   },
+   "android": {
+     "package": "com.yourcompany.test"
+   }
+  }
+}
