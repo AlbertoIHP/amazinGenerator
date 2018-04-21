@@ -14,7 +14,7 @@
 6- Uncompress and change the folder name to androidstudio and put it inside $HOME/Programas/
 
 7- Replace with `sudo subl /etc/environment` with 
-`
+
 
 NODE_HOME=$HOME/Programas/node
 
@@ -25,7 +25,7 @@ JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ANDROID_HOME=$HOME/Android/Sdk
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$NODE_HOME/bin:$JAVA_HOME/bin:$ANDROID_STUDIO_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools"
-`
+
 
 8- load you variables with `source /etc/environment`
 
