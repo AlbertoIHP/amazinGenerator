@@ -2,28 +2,43 @@
 
 
 1- sudo apt-get install openjdk-8-jre-headless
-2- sudo apt-get install openjdk-8-jdk-headless
-3- Download node from https://nodejs.org/dist/v9.11.1/node-v9.11.1-linux-x64.tar.xz
-4- Uncompress and change the folder name to node and put it inside a new folder in your $HOME/Programas/
-5- Download android studio from https://developer.android.com/studio/index.html#linux-bundle
-6- Uncompress and change the folder name to androidstudio and put it inside $HOME/Programas/
-7- Replace with `sudo subl /etc/environment` with 
 
+2- sudo apt-get install openjdk-8-jdk-headless
+
+3- Download node from https://nodejs.org/dist/v9.11.1/node-v9.11.1-linux-x64.tar.xz
+
+4- Uncompress and change the folder name to node and put it inside a new folder in your $HOME/Programas/
+
+5- Download android studio from https://developer.android.com/studio/index.html#linux-bundle
+
+6- Uncompress and change the folder name to androidstudio and put it inside $HOME/Programas/
+
+7- Replace with `sudo subl /etc/environment` with 
+`
 
 NODE_HOME=$HOME/Programas/node
+
 ANDROID_STUDIO_HOME=$HOME/Programas/androidstudio
+
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
 ANDROID_HOME=$HOME/Android/Sdk
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$NODE_HOME/bin:$JAVA_HOME/bin:$ANDROID_STUDIO_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools"
-
+`
 
 8- load you variables with `source /etc/environment`
+
 9- open android studio by running `studio.sh`
+
 10- Put not import configuration, and then custom
+
 11- Install this:
+
 Android SDK
+
 Android SDK Platform
+
 Android Virtual Device
 
 
