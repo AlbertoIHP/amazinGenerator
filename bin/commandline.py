@@ -4,6 +4,8 @@ import io
 import os
 from componentparser import ComponentParser
 from projectparser import ProjectParser
+import re
+
 
 class CommandLine(object):
 
@@ -26,39 +28,95 @@ class CommandLine(object):
 			json.dump( self.data, outfile )
 
 
+
+	def hasTemplate(self, command):
+		template = re.search('(?<=--template=)[A-Za-z_.]*', command)
+		name = re.search('(?<=--name=)[A-Za-z_.]*',command)
+	
+		if( template and name ):
+			template = str( template.group(0) )
+			name = str( name.group(0) )
+			return { 'name': name, 'template': template}
+		elif( name ):
+			name = str( name.group(0) )
+			return { 'name': name, 'template': False}
+		else:
+			return False	
+
+
+
+
+
 	def execute(self, command):
 
-		command = command.split('-')
-
-
-		if( command[0] == 'help'):
+		if( re.search('(help)*', command).group(0) ):
 			self.displayHelp()
 
-		elif( command[0] == 'new project ' and len( command ) == 2 ):
-			self.projectCreator.generateProject( command[1], self )
 
-		elif( command[0] == 'show projects' and len( command ) == 1 ):
+
+
+		elif( re.search('(new project)*', command).group(0) ):
+			res = self.hasTemplate( command )
+			if( res and res['template']):
+				a = '5'
+				#Call template builder
+			elif( res ):
+				self.projectCreator.generateProject( res['name'], self )
+			else:
+				print "You have to specify a name to build a new project"
+				
+
+		
+		elif( re.search('(show projects)*', command).group(0) ):
 			self.projectCreator.showProjects( self )
 
-		elif( command[0] == 'del project ' and len( command ) == 2 ):
-			self.projectCreator.deleteProject( str( command[1], self ) )
 
-		elif( command[0] == 'use project ' and len( command ) == 2 ):
-			self.projectCreator.useProject( str( command[1] ), self )
 
-		elif( command[0] == 'new component ' and len( command ) == 2 ):
-			self.componentCreator.createComponent( self.data['currentProject'], str( command[1]), self )
 
-		elif( command[0] == 'show components' and len( command ) == 1 ):
+		elif( re.search('(del project)*', command).group(0) ):
+			if( self.hasTemplate( command ) ):
+				self.projectCreator.useProject( self.hasTemplate( command )['name'], self )
+				self.projectCreator.deleteProject( self.hasTemplate( command )['name'], self )
+			else:
+				print "You have to specify a name to delete the project"	
+
+
+
+
+		elif( re.search('(use project)*', command).group(0) ):
+			if( self.hasTemplate( command ) ):
+				self.projectCreator.useProject( self.hasTemplate( command )['name'], self )
+			else:
+				print "You have to specify a name to use the project"	
+
+
+			
+
+		elif( re.search('(new component)*', command).group(0) ):
+			res = self.hasTemplate( command )
+			if( res and res['template']):
+				a = '5'
+				#Call template builder
+			elif( res ):
+				self.componentCreator.createComponent( self.data['currentProject'], res['name'], self )
+			else:
+				print "You have to specify a name to build a new component"
+
+
+
+
+				
+
+		elif( re.search('(show components)*', command).group(0) ):
 			print 'se deben mostrar todos los componentes del proyecto cargado'
 
-		elif( command[0] == 'del component ' and len( command ) == 2 ):
+		elif( re.search('(del component)*', command).group(0) ):
 			print 'se debe eliminar el componente'+str( command[1] )
 
-		elif( command[0] == 'use component ' and len( command ) == 2 ):
+		elif( re.search('(use component)*', command).group(0) ):
 			print 'se debe usar el componente'+str( command[1] )
 
-		elif( command[0] == 'clear'):
+		elif( re.search('(clear)*', command).group(0) ):
 			self.runCommand('clear')
 
 		else:
@@ -102,24 +160,28 @@ class CommandLine(object):
 
 
 	def displayHelp( self ):
+		print
+		print
 		print 'General Commands:'
 		print '-----------------'
 		print 'exit (This will close amazinGenerator)'
-		print '																				  '
-		print '																				  '
+		print 
+		print 
 		print 'Project Commands:'
 		print '-----------------'
-		print 'new project -projectname (This will create a new react native project)'
+		print 'new project --name=projectname --template=templatename (This will create a new react native project)'
 		print 'show projects (This will show your current projects)'
-		print 'del project -projectname (This will delete your project)'
-		print 'use project -projectname (This will load your project for create components)'
-		print '																				  '
-		print '																				  '
+		print 'del project --name=projectname (This will delete your project)'
+		print 'use project --name=projectname (This will load your project for create components)'
+		print 
+		print 
 		print 'Components Commands:'
 		print '--------------------'
-		print 'new component -componentname (This will create a component inside your loaded project)'
-		print 'del component -componentname (This will delete the component)'
+		print 'new component --name=componentname --template=templatename (This will create a component inside your loaded project)'
+		print 'del component --name=componentname  (This will delete the component)'
 		print 'show components (This will show the whole list of components of loaded project)'
-		print 'use component -componentname (This will load your component for configurate it)'
+		print 'use component --name=componentname (This will load your component for configurate it)'
+		print
+		print
 
 

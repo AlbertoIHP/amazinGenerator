@@ -75,6 +75,6 @@ Google APIs Intel x86 Atom_64 System Image
 
 9- Run your project by typing `run project`
 
-10- Press `q` this will deploy the app into expo in your virtual device, also by installing expo in your phone you will deploy it by taking the QR code
+10- Press `a` this will deploy the app into expo in your virtual device, also by installing expo in your phone you will deploy it by taking the QR code
 
 11- Enjoy, soon we will have more features, this is just the beggining :D!
