@@ -13,7 +13,7 @@ class CommandLine(object):
 	def __init__(self):
 		self.componentCreator = ComponentParser()
 		self.projectCreator = ProjectParser()
-		self.tabCreator = TabCreator()
+		self.tabCreator = TabParser()
 		jsonFile = self.checkJsonConfFile()
 		if( jsonFile == False ):
 			self.data = self.createJsonConfFile()
