@@ -111,7 +111,6 @@ class CommandLine(object):
 				a = '5'
 				#Call template builder
 			elif( res ):
-				self.componentCreator.createComponent( self.data['currentProject'], res['name'], self )
 				self.tabCreator.createTab( self.data['currentProject'], res['name'], self )
 			else:
 				print "You have to specify a name to build a new component"
