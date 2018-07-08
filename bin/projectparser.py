@@ -125,7 +125,7 @@ class ProjectParser(object):
 						{'name': 'constructor', 'params': [ { 'name': 'props' } ], 'returnVal': False }, 
 						{'name': 'render', 'params': [ ], 'returnVal': True } ] } ], 
 				'services': [], 
-				'tabs' : [ { name: tab1 } ], 
+				'tabs' : [ { 'name': 'tab1' } ], 
 				'routes': [] }
 			console.data['projects'].append( newProject )
 			console.replaceJson()
