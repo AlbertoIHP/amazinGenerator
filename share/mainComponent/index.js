@@ -3,6 +3,10 @@ import { Drawer } from 'native-base';
 import SideBar from './SideBar';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 
+
+import tab1 from './tab1Component'
+// kukuriwiNewTabImport
+
 export default class mainComponent extends Component {
 
   constructor(props)
@@ -10,10 +14,23 @@ export default class mainComponent extends Component {
     super(props)
     this.state = 
     {
-      title: 'mainComponent works'
+      title: 'mainComponent works',
+      tabs: 
+      [ 
+        { name: 'tab1', active: true, jsx: <tab1 /> },  
+        //kukuriwiNewTabStore
+      ] 
     }
   }
 
+
+  async activeTab( tabToActive )
+  {
+    let newTab = tabs.map( (tab) => {
+      tab.active = tab.name === tabToActive ?  true : false
+        return tab
+     } )
+  }
 
 
   closeDrawer = () => {
@@ -23,6 +40,11 @@ export default class mainComponent extends Component {
   openDrawer = () => {
     this.drawer._root.open()
   };
+
+  renderActiveTab()
+  {
+    return this.state.tabs.map( (tab) => (tab.active ? tab.jsx : null) )
+  }
 
   render() 
   {
@@ -48,17 +70,17 @@ export default class mainComponent extends Component {
               <Right />
             </Header>
             <Content>
-              <Text>
-                { this.state.title }
-              </Text>
+                { this.renderActiveTab() }
             </Content>
-            <Footer>
-              <FooterTab>
-                <Button full>
-                  <Text>Footer</Text>
-                </Button>
-              </FooterTab>
-            </Footer>
+              <Footer>
+                <FooterTab>
+                  <Button active={this.state.tab1} onPress={() => this.activeTab('tab1')}>
+                    <Icon active={this.state.tab1} name="apps" />
+                   <Text>tab1</Text>
+                  </Button>
+                {/* kukuriwiNewTabButton */}
+                </FooterTab>
+              </Footer>
           </Container>
       </Drawer>
     );

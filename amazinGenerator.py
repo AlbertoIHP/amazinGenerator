@@ -17,6 +17,3 @@ if __name__ == '__main__':
 				console.runCommand('npm start')			
 		elif( len( command ) == 1 and re.search( '[a-zA-Z]', command[0] ) ):
 			console.execute( command[0] )
-		else:
-			print "We could not recognize your command "
-			console.displayHelp()

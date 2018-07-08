@@ -1,0 +1,4 @@
+                  <Button active={this.state.kukuriwi} onPress={() => this.activeTab('kukuriwi')}>
+                    <Icon active={this.state.kukuriwi} name="apps" />
+                   <Text>kukuriwi</Text>
+                  </Button>

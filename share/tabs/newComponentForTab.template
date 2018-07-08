@@ -1,0 +1,29 @@
+import React, { Component } from 'react';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import styles  from './styles'
+
+export default class kukuriwi extends Component 
+{
+
+  constructor( props )
+  {
+    super( props )
+    this.state = 
+    {
+      tittle: ' kukuriwi works'
+    }
+  }
+
+  render() 
+  {
+    return (
+      <Container style={ styles.container } >
+        <Content>
+          <Text>
+              { this.state.tittle }
+          </Text>
+        </Content>
+      </Container>
+    );
+  }
+}

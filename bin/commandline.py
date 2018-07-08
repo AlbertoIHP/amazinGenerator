@@ -4,6 +4,7 @@ import io
 import os
 from componentparser import ComponentParser
 from projectparser import ProjectParser
+from tabparser import TabParser
 import re
 
 
@@ -12,6 +13,7 @@ class CommandLine(object):
 	def __init__(self):
 		self.componentCreator = ComponentParser()
 		self.projectCreator = ProjectParser()
+		self.tabCreator = TabCreator()
 		jsonFile = self.checkJsonConfFile()
 		if( jsonFile == False ):
 			self.data = self.createJsonConfFile()
@@ -103,7 +105,16 @@ class CommandLine(object):
 				print "You have to specify a name to build a new component"
 
 
-
+		elif( re.search('(new tab)*', command).group(0) ):
+			res = self.hasTemplate( command )
+			if( res and res['template']):
+				a = '5'
+				#Call template builder
+			elif( res ):
+				self.componentCreator.createComponent( self.data['currentProject'], res['name'], self )
+				self.tabCreator.createTab( self.data['currentProject'], res['name'], self )
+			else:
+				print "You have to specify a name to build a new component"
 
 				
 
@@ -181,6 +192,11 @@ class CommandLine(object):
 		print 'del component --name=componentname  (This will delete the component)'
 		print 'show components (This will show the whole list of components of loaded project)'
 		print 'use component --name=componentname (This will load your component for configurate it)'
+		print 
+		print 
+		print 'Tabs Commands:'
+		print '--------------------'
+		print 'new tab --name=tabname --template=templatename (This will create a tab inside your maincomponent)'
 		print
 		print
 
